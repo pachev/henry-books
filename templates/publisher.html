@@ -18,13 +18,13 @@
             <div class="header">
                 <nav>
                     <ul class="nav nav-pills pull-right">
-                        <li role="presentation" class="active"><a href="#">Home</a>
+                        <li role="presentation"><a href="/">Home</a>
                         </li>
                         <li role="presentation"><a href="/author">Author</a>
                         </li>
                         <li role="presentation"><a href="/copy">Copy</a>
                         </li>
-                        <li role="presentation"><a href="/publisher">Publisher</a>
+                        <li role="presentation" class="active"><a href="/publisher">Publisher</a>
                         </li>
                     </ul>
                 </nav>
@@ -36,16 +36,14 @@
                 <p class="lead"></p>
             </div>
 
-            <h4 style="text-align: center"> Here is the current list of Henry Books </h4>
+            <h4 style="text-align: center"> Here is the current list of Henry Publishers </h4>
             <div class="row" >
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>BookCode</th>
-                            <th>Title</th>
                             <th>Publisher Code</th>
-                            <th>Type</th>
-                            <th>Paperback</th>
+                            <th>Publisher Name</th>
+                            <th>Publisher City</th>
                         </tr>
                         <tbody>
                             {% for n in data %}
@@ -53,8 +51,6 @@
                                 <td>{{n[0]}}</td>
                                 <td>{{n[1]}}</td>
                                 <td>{{n[2]}}</td>
-                                <td>{{n[3]}}</td>
-                                <td>{{n[4]}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -62,6 +58,7 @@
 
 
                 </div>
+
                 <footer class="footer">
                     <p style="text-align: center">Henry is here to serve the books | Pachev Joseph & Alan Kopettman</p>
                 </footer>
