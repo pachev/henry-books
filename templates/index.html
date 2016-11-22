@@ -4,13 +4,21 @@
     <head>
         <title>Assignment 5 | Henry Books Database</title>
 
-
         <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
 
 
     </head>
+    <style>
+        .jumbotron{
+            background-image: url(http://www.uglydogbooks.com/wp-content/uploads/2014/04/books.jpg);
+            background-size: cover;
+            background-position: center center;
+            color: white;
+            position: relative;
+        }
+    </style>
 
     <body>
 
@@ -32,7 +40,18 @@
             </div>
 
             <div class="jumbotron">
-                <h2>Books by Henry</h2>
+                <div style="
+                    height: 100%;
+                    width: 100%;
+                    background: rgba(0, 0, 0, 0.3);
+                    position: absolute;
+                    top: 0;
+                    z-index: 1;
+                    "></div>
+                <h2 style="
+                    z-index: 999;
+                    position: relative;
+                    ">Books by Henry</h2>
                 <p class="lead"></p>
             </div>
 
@@ -46,6 +65,7 @@
                             <th>Publisher Code</th>
                             <th>Type</th>
                             <th>Paperback</th>
+                            <th>Action</th>
                         </tr>
                         <tbody>
                             {% for n in data %}
@@ -55,6 +75,10 @@
                                 <td>{{n[2]}}</td>
                                 <td>{{n[3]}}</td>
                                 <td>{{n[4]}}</td>
+                                <td >
+                                    <button type="button" class="btn btn-success">Edit</button>
+                                    <button type="button" class="btn btn-danger">Delete</button>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
