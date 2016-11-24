@@ -1,62 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+	{% block head %}
+		{{ super () }}
+	{% endblock %}
 
-    <head>
-        <title>Assignment 5 | Henry Books Database</title>
-
-
-        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
-        <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-
-    <style>
-        .jumbotron{
-            background-image: url(http://www.uglydogbooks.com/wp-content/uploads/2014/04/books.jpg);
-            background-size: cover;
-            background-position: center center;
-            color: white;
-            position: relative;
-        }
-    </style>
-
-    </head>
-
-    <body>
-
-        <div style="max-width: 85.95rem; margin: 0 auto">
-            <div class="header">
-                <nav>
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation"><a href="/">Home</a>
-                        </li>
-                        <li role="presentation"><a href="/author">Author</a>
-                        </li>
-                        <li role="presentation" class="active"><a href="/copy">Copy</a>
-                        </li>
-                        <li role="presentation"><a href="/publisher">Publisher</a>
-                        </li>
-                    </ul>
-                </nav>
-                <h3 class="text-muted">Assignment 5 | Henry Books Database</h3>
-            </div>
-
-            <div class="jumbotron">
-                <div style="
-                    height: 100%;
-                    width: 100%;
-                    background: rgba(0, 0, 0, 0.3);
-                    position: absolute;
-                    top: 0;
-                    z-index: 1;
-                    "></div>
-                <h2 style="
-                    z-index: 999;
-                    position: relative;
-                    ">Books by Henry</h2>
-                <p class="lead"></p>
-            </div>
-
-            <h4 style="text-align: center"> Here is the current Henry inventory</h4>
+	{% block content %}
+		{{ super () }}
             <div class="row" >
                 <table class="table">
                     <thead>
@@ -84,15 +32,5 @@
                             {% endfor %}
                         </tbody>
                     </table>
-
-
                 </div>
-
-                <footer class="footer">
-                    <p style="text-align: center">Henry is here to serve the books | Pachev Joseph & Alan Kopettman</p>
-                </footer>
-
-            </div>
-        </body>
-
-    </html>
+	{% endblock %}

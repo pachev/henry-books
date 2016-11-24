@@ -1,0 +1,34 @@
+        .jumbotron{
+            background-image: url(http://www.uglydogbooks.com/wp-content/uploads/2014/04/books.jpg);
+            background-size: cover;
+            background-position: center center;
+            color: white;
+            position: relative;
+        }
+		
+		.header-wrapper {
+			max-width: 85.95rem;
+			margin: 0 auto;
+		}
+
+		.header-wapper h4 {
+			text-align: center;
+		}
+
+		.jumbotron-inner {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			top: 0;
+			z-index: 1;
+		}
+
+		.jumbotron-inner h2 {
+			z-index: 999;
+			position: relative;
+            color: white important!;
+		}	
+
+		.footer-content {
+			text-align: center;
+		}
