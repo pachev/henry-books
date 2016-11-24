@@ -6,6 +6,19 @@
             position: relative;
         }
 		
+		.header {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.header-title {
+			margin-right: 5%;
+		}
+
+		.list {
+			display: flex;
+		}
+
 		.header-wrapper {
 			max-width: 85.95rem;
 			margin: 0 auto;

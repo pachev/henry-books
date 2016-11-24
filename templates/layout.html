@@ -15,9 +15,10 @@
 		{% block content %}
 		<div class="header-wrapper">
             <div class="header">
+                <h3 class="text-muted header-title">Henry&nbsp;Books&nbsp;Database</h3>
                 <nav>
-                    <ul class="nav nav-pills pull-right">
-                        <li role="presentation" class="active"><a href="#">Home</a>
+                    <ul class="nav nav-pills pull-right list">
+                        <li role="presentation" class="active"><a href="/">Home</a>
                         </li>
                         <li role="presentation"><a href="/author">Author</a>
                         </li>
@@ -25,12 +26,20 @@
                         </li>
                         <li role="presentation"><a href="/publisher">Publisher</a>
                         </li>
-						<li role="presentation" class="input-group">
-							<input type="text" class="form-control" placeholder="Search">
+						<li role="presentation">
+							<div class="input-group">
+								<form action="/search" method="POST">
+									<input 
+										type="text" 
+										name="search" 
+										class="form-control" 
+										value="{{ request.form.search }}"
+										placeholder="Search">
+								</form>
+							</div>
 						</li>
                     </ul>
                 </nav>
-                <h3 class="text-muted">Henry Books Database</h3>
             </div>
             <div class="jumbotron">
                 <div class="jumbotron-inner"> </div>
