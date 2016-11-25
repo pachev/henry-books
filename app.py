@@ -42,7 +42,7 @@ def main():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('search.html', data=data)
+    return render_template('index.html', data=data)
 
 @app.route('/author')
 def author():
@@ -52,7 +52,7 @@ def author():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('search.html', data=data)
+    return render_template('index.html', data=data)
 
 @app.route('/copy')
 def copy():
@@ -62,7 +62,7 @@ def copy():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('search.html', data=data)
+    return render_template('index.html', data=data)
 
 @app.route('/publisher')
 def publisher():
@@ -72,14 +72,14 @@ def publisher():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('search.html', data=data)
+    return render_template('index.html', data=data)
 
 @app.route('/search', methods=['GET', 'POST'])
-def search():
+def index():
     # query = "SELECT b.title, c.copynum, FROM BOOK b, COPY c, AUTHOR a, BRANCH br WHERE b.title='{}' AND
     print(request.form['search'])
     if request.method == "POST":
-        # form_input = query.format(request.form['search'].upper())
+        # form_input = query.format(request.form['index'].upper())
         form_input = request.form['search'].upper()
         if form_clean(form_input, action="SELECT"):
             cursor.execute("{}".format(form_input))
@@ -88,7 +88,25 @@ def search():
         else:
             return 'Action Not Allowed'
 
-    return render_template('search.html', data=data)
+    return render_template('index.html', data=data)
+
+@app.route('/editbook', methods=['POST'])
+def editBook():
+    _title = request.form['editTitle']
+    _bookcode = request.form['editBookcode']
+    _publishercode = request.form['editPublishercode']
+    _type = request.form['editType']
+    _paperback = request.form['editPaperback']
+
+    cursor.execute("""
+        UPDATE book SET bookcode=%s, title=%s, publishercode=%s,
+        type=%s, paperback=%s WHERE bookcode=%s
+    """,(_bookcode, _title, _publishercode, _type, _paperback, _bookcode))
+
+    conn.commit()
+
+    return(_title)
+
 
 # This allows app to run with standar python commnand
 if __name__ == "__main__":

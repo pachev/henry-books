@@ -1,37 +1,37 @@
-{% extends "layout.html" %}
+{% extends "modal.html" %}
 {% block head %}
 {{ super () }}
 {% endblock %}
 
 {% block content %}
 {{ super () }}
-<div class="row" >
-	<table class="table">
-		<thead>
-			<tr>
-				<th>BookCode</th>
-				<th>Title</th>
-				<th>Publisher Code</th>
-				<th>Type</th>
-				<th>Paperback</th>
-				<th>Action</th>
-			</tr>
-			<tbody>
-				{% for n in data %}
-				<tr>
-					<td>{{n[0]}}</td>
-					<td>{{n[1]}}</td>
-					<td>{{n[2]}}</td>
-					<td>{{n[3]}}</td>
-					<td>{{n[4]}}</td>
-					<td >
-						<button type="button" class="btn btn-success">Edit</button>
-						<button type="button" class="btn btn-danger">Delete</button>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-</div>
-{% endblock %}
+		<div class="row" >
+			<table class="table">
+				<thead>
+					<tr>
+						{% for col in data[0] %}
+						<th>{{ col.upper() }}</th>
+						{% endfor %}
+						<th>Action</th>
+					</tr>
+					<tbody>
+						<tr>
+						{% for entry in data[1::] %}
+							{% for item in entry %}
+							<td>{{item}}</td>
+						{% endfor %}
+							<td >
+								<a data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil"></span></a>
+								<a><span class="glyphicon glyphicon-trash"></span></a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% from 'modal.html' import modal %}
+			{% block modal %}
+			{{ super () }}
+			{% endblock modal %}
+
+{% endblock content %}
