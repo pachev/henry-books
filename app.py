@@ -34,32 +34,40 @@ def main():
 
     cursor.execute("select * from book")
 
-    data = cursor.fetchall()
-    return render_template('index.html', data=data)
+    cursor_data = cursor.fetchall()
+    data = get_table_context(cursor, cursor_data)
+
+    return render_template('search.html', data=data)
 
 @app.route('/author')
 def author():
 
     cursor.execute("select * from author")
 
-    data = cursor.fetchall()
-    return render_template('author.html', data=data)
+    cursor_data = cursor.fetchall()
+    data = get_table_context(cursor, cursor_data)
+
+    return render_template('search.html', data=data)
 
 @app.route('/copy')
 def copy():
 
     cursor.execute("select * from copy")
 
-    data = cursor.fetchall()
-    return render_template('copy.html', data=data)
+    cursor_data = cursor.fetchall()
+    data = get_table_context(cursor, cursor_data)
+
+    return render_template('search.html', data=data)
 
 @app.route('/publisher')
 def publisher():
 
     cursor.execute("select * from publisher")
 
-    data = cursor.fetchall()
-    return render_template('publisher.html', data=data)
+    cursor_data = cursor.fetchall()
+    data = get_table_context(cursor, cursor_data)
+
+    return render_template('search.html', data=data)
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
