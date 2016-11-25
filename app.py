@@ -71,11 +71,17 @@ def publisher():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
+    # query = "SELECT b.title, c.copynum, FROM BOOK b, COPY c, AUTHOR a, BRANCH br WHERE b.title='{}' AND
     print(request.form['search'])
     if request.method == "POST":
-        cursor.execute("{}".format(request.form['search']))
-        cursor_data = cursor.fetchall()
-        data = get_table_context(cursor, cursor_data)
+        # form_input = query.format(request.form['search'].upper())
+        form_input = request.form['search'].upper()
+        if form_clean(form_input, action="SELECT"):
+            cursor.execute("{}".format(form_input))
+            cursor_data = cursor.fetchall()
+            data = get_table_context(cursor, cursor_data)
+        else:
+            return 'Action Not Allowed'
 
     return render_template('search.html', data=data)
 
