@@ -28,6 +28,11 @@ def get_table_context(cursor, cursor_data):
     data = tuple(cursor_data)
     return data
 
+def form_clean(form_input, action):
+    c = form_input.split()
+    if c[0] == action.upper():
+        return True
+    return False
 # Routes to index page
 @app.route('/')
 def main():
