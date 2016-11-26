@@ -76,8 +76,9 @@ def publisher():
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
-    query = "SELECT b.title, c.price, c.copynum, br.branchname, a.authorfirst,\
-            a.authorlast FROM \
+    query = "SELECT b.title, c.quality, c.price, br.branchname, a.authorfirst,\
+            a.authorlast, p.publishername \
+            FROM \
             BOOK b LEFT JOIN \
             (COPY c, BRANCH br, PUBLISHER p, WROTE w, AUTHOR a) \
             ON \
