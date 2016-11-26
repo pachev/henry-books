@@ -85,7 +85,7 @@ def index():
             c.branchnum=br.branchnum AND \
             b.bookcode=w.bookcode) \
             WHERE \
-            b.title = \"{}\" AND \
+            b.title LIKE \"%{}%\" AND \
             p.publishercode=b.publishercode AND \
             a.authornum=w.authornum"
 
