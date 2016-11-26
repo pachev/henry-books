@@ -76,17 +76,25 @@ def publisher():
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
-    # query = "SELECT b.title, c.copynum, FROM BOOK b, COPY c, AUTHOR a, BRANCH br WHERE b.title='{}' AND
-    print(request.form['search'])
-    if request.method == "POST":
-        # form_input = query.format(request.form['index'].upper())
-        form_input = request.form['search'].upper()
-        if form_clean(form_input, action="SELECT"):
-            cursor.execute("{}".format(form_input))
-            cursor_data = cursor.fetchall()
-            data = get_table_context(cursor, cursor_data)
-        else:
-            return 'Action Not Allowed'
+    query = "SELECT b.title, c.price, c.copynum, br.branchname, a.authorfirst,\
+            a.authorlast FROM \
+            BOOK b LEFT JOIN \
+            (COPY c, BRANCH br, PUBLISHER p, WROTE w, AUTHOR a) \
+            ON \
+            (c.bookcode=b.bookcode AND \
+            c.branchnum=br.branchnum AND \
+            b.bookcode=w.bookcode) \
+            WHERE \
+            b.title = \"{}\" AND \
+            p.publishercode=b.publishercode AND \
+            a.authornum=w.authornum"
+
+    if request.method == "GET":
+        form_input = query.format(request.args.get('search').upper())
+        print(form_input)
+        cursor.execute("{}".format(form_input))
+        cursor_data = cursor.fetchall()
+        data = get_table_context(cursor, cursor_data)
 
     return render_template('index.html', data=data)
 
