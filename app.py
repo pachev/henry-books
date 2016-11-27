@@ -1,14 +1,19 @@
 from flask import Flask,flash, render_template, request, redirect, session, current_app, url_for
+
 from flaskext.mysql import MySQL
 
 # General Settings
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'awolin82'
-app.config['MYSQL_DATABASE_DB'] = 'assignment_3'
+app.config['MYSQL_DATABASE_USER'] = 'user'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'pw'
+app.config['MYSQL_DATABASE_DB'] = 'henry'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+
+# Uncomment the line below to use the remote database as oppose to a henry one on localhost
+# app.config['MYSQL_DATABASE_HOST'] = '107.170.108.43'
+
 app.config['SECRET_KEY'] = 'A-UUID-123-GOES-4567-HERE'
 
 mysql = MySQL()
