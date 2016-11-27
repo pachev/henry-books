@@ -34,7 +34,7 @@
 								<a data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil"></span></a>
 								<form action=\delete-{{request.url_rule.rule[1::]}} method=POST>
 									<input type=hidden value="{{ entry[0] }}"name="{{request.url_rule.rule[1::]}}_to_delete"></input>
-								<input type=submit class="glyphicon glyphicon-trash"></input>
+								<button type=submit class=trash-button><span class="glyphicon glyphicon-trash"></span></button>
 								</form>
 							</td>
 						{% endif %}
