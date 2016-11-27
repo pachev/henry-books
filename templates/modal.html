@@ -12,8 +12,8 @@
                 <form role="form" action="/edit{{editpath}}" method="post">
 					{% for col in data[0] %}
 					<div class="form-group">
-						<label for="edit{{col}}" class="control-label">{{col.upper()}}:</label>
-						<input type="text" class="form-control" name="edit{{col}}" id="edit{{col}}">
+						<label for="edit{{col.upper()}}" class="control-label">{{col.upper()}}:</label>
+						<input type="text" class="form-control" name="edit{{col}}" id="edit{{col.upper()}}">
 					</div>
 					{% endfor %}
                      <input type="submit" value="Submit">

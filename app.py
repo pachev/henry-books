@@ -1,4 +1,4 @@
-from flask import Flask,flash, render_template, request, redirect, session, current_app
+from flask import Flask,flash, render_template, request, redirect, session, current_app, url_for
 from flaskext.mysql import MySQL
 
 # General Settings
@@ -37,7 +37,7 @@ def form_clean(form_input, action):
     return False
 
 # Routes to index page
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main():
 
     cursor.execute("select * from Book")
@@ -95,7 +95,6 @@ def index():
 
     if request.method == "GET":
         form_input = query.format(request.args.get('search').upper())
-        print(form_input)
         cursor.execute("{}".format(form_input))
         cursor_data = cursor.fetchall()
         data = get_table_context(cursor, cursor_data)
@@ -212,6 +211,27 @@ def editCopy():
     except Exception as e:
         flash('Something went terribly wrong', 'error')
         return redirect('/')
-# This allows app to run with standard python commnand
+
+@app.route('/delete-book', methods=['POST'])
+def delete_book():
+    cursor.execute("delete from book where title = \'{}\'".format(request.form.get("book_to_delete")))
+    return redirect(url_for('main'))
+
+@app.route('/delete-author', methods=['POST'])
+def delete_author():
+    cursor.execute("delete from author where authornum = \'{}\'".format(request.form.get("author_to_delete")))
+    return redirect(url_for('main'))
+
+@app.route('/delete-publisher', methods=['POST'])
+def delete_publisher():
+    cursor.execute("delete from publisher where publishercode = \'{}\'".format(request.form.get("publisher_to_delete")))
+    return redirect(url_for('main'))
+
+@app.route('/delete-copy', methods=['POST'])
+def delete_copy():
+    cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
+    return redirect(url_for('main'))
+
+# This allows app to run with standar python commnand
 if __name__ == "__main__":
     app.run()
