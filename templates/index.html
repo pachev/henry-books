@@ -17,7 +17,9 @@
 							{% endif %}
 							<th>{{ col.upper() }}</th>
 						{% endfor %}
+						{% if request.args.get('search') == None %}
 						<th>Action</th>
+						{% endif %}
 					</tr>
 					<tbody>
 						<tr>
@@ -26,11 +28,16 @@
 							<!--FOR ENTRY IN TUPLE-->
 							{% for item in entry %}
 								<td>{{item}}</td>
-						{% endfor %}
+							{% endfor %}
+							{% if request.args.get('search') == None %}
 							<td >
 								<a data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil"></span></a>
-								<a><span class="glyphicon glyphicon-trash"></span></a>
+								<form action="\delete-book" method=POST>
+									<input type=hidden value="{{ entry[1] }}"name="book_to_delete"></input>
+								<input type=submit class="glyphicon glyphicon-trash"></input>
+								</form>
 							</td>
+						{% endif %}
 						</tr>
 						{% endfor %}
 					</tbody>
