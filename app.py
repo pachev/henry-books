@@ -42,15 +42,19 @@ def form_clean(form_input, action):
     return False
 
 # Routes to index page
-@app.route('/book', methods=['GET', 'POST'])
+@app.route('/')
 def main():
+    return render_template('index.html')
+
+@app.route('/book', methods=['GET', 'POST'])
+def book():
 
     cursor.execute("select * from Book")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='book')
+    return render_template('list-view.html', data=data, editpath='book')
 
 @app.route('/author')
 def author():
@@ -60,7 +64,7 @@ def author():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='author')
+    return render_template('list-view.html', data=data, editpath='author')
 
 @app.route('/copy')
 def copy():
@@ -70,7 +74,7 @@ def copy():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='copy')
+    return render_template('list-view.html', data=data, editpath='copy')
 
 @app.route('/publisher')
 def publisher():
@@ -80,7 +84,7 @@ def publisher():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='publisher')
+    return render_template('list-view.html', data=data, editpath='publisher')
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
@@ -104,7 +108,7 @@ def index():
         cursor_data = cursor.fetchall()
         data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('list-view.html', data=data)
 
 @app.route('/editbook', methods=['POST'])
 def editBook():
@@ -124,10 +128,10 @@ def editBook():
         data = cursor.fetchall()
         if len(data) is 0:
             flash('Row sucessfully updated', 'success')
-            return redirect('/')
+            return redirect('/book')
         else:
             flash('Something went terribly wrong', 'error')
-            return redirect('/')
+            return redirect('/book')
     except Exception as e:
         flash('Something went terribly wrong', 'error')
         return redirect('/')
@@ -217,24 +221,31 @@ def editCopy():
         flash('Something went terribly wrong', 'error')
         return redirect('/')
 
+
+
+# DELETE OPERATIONS
 @app.route('/delete-book', methods=['POST'])
 def delete_book():
-    cursor.execute("delete from Book where bookCode = \'{}\'".format(request.form.get("book_to_delete")))
+    '''Function View For Deleting Books'''
+    cursor.execute("delete from book where bookcode = \'{}\'".format(request.form.get("book_to_delete")))
     return redirect(url_for('main'))
 
 @app.route('/delete-author', methods=['POST'])
 def delete_author():
-    cursor.execute("delete from Author where authorNum = \'{}\'".format(request.form.get("author_to_delete")))
+    '''Function View For Deleting Authors'''
+    cursor.execute("delete from author where authornum = \'{}\'".format(request.form.get("author_to_delete")))
     return redirect(url_for('author'))
 
 @app.route('/delete-publisher', methods=['POST'])
 def delete_publisher():
-    cursor.execute("delete from Publisher where publisherCode = \'{}\'".format(request.form.get("publisher_to_delete")))
+    '''Function View For Deleting Publishers'''
+    cursor.execute("delete from publisher where publishercode = \'{}\'".format(request.form.get("publisher_to_delete")))
     return redirect(url_for('publisher'))
 
 @app.route('/delete-copy', methods=['POST'])
 def delete_copy():
-    cursor.execute("delete from Copy where bookCode = \'{}\'".format(request.form.get("copy_to_delete")))
+    '''Function View For Deleting Copies'''
+    cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
     return redirect(url_for('copy'))
 
 # This allows app to run with standar python commnand

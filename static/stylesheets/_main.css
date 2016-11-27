@@ -14,6 +14,12 @@
 		.header-title {
 			margin-right: 5%;
 		}
+
+		.welcome-wrapper {
+			text-align: center;
+			padding: 10%;
+		}
+
 		.trash-button {
 			background-color: white;
 			border: none;

@@ -5,47 +5,7 @@
 
 {% block content %}
 {{ super () }}
-<!--LINK TO BOOK-->
-{% set linkage = {'link' : False } %}
-		<div class="row" >
-			<table class="table">
-				<thead>
-					<tr>
-						<!--COLUMN CONTEXT-->
-						{% for col in data[0] %}
-							{% if col.upper() == "TITLE" %}
-							{% endif %}
-							<th>{{ col.upper() }}</th>
-						{% endfor %}
-						{% if request.args.get('search') == None %}
-						<th>Action</th>
-						{% endif %}
-					</tr>
-					<tbody>
-						<tr>
-						<!--FOR TUPLE IN QUERYSET-->
-						{% for entry in data[1::] %}
-							<!--FOR ENTRY IN TUPLE-->
-							{% for item in entry %}
-								<td>{{item}}</td>
-							{% endfor %}
-							{% if request.args.get('search') == None %}
-							<td >
-								<a data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil"></span></a>
-								<form action=\delete-{{request.url_rule.rule[1::]}} method=POST>
-									<input type=hidden value="{{ entry[0] }}"name="{{request.url_rule.rule[1::]}}_to_delete"></input>
-								<button type=submit class=trash-button><span class="glyphicon glyphicon-trash"></span></button>
-								</form>
-							</td>
-						{% endif %}
-						</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
-			{% from 'modal.html' import modal %}
-			{% block modal %}
-			{{ super () }}
-			{% endblock modal %}
-
+<div class="welcome-wrapper">
+	<h1 class="welcome"> Welcome To Henry Books </h1>
+</div>
 {% endblock content %}
