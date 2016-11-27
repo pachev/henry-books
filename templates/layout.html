@@ -3,7 +3,22 @@
     <head>
 		{% block head %}
         <title>Assignment 5 | Henry Books Database</title>
-
+        {% with messages = get_flashed_messages(category_filter='success') %}
+        {% if messages %}
+			<div class="alert alert-success alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{messages[0]}}
+			</div>
+        {% endif %}
+        {% endwith %}
+        {% with messages = get_flashed_messages(category_filter='error') %}
+        {% if messages %}
+			<div class="alert alert-danger alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{messages[0]}}
+			</div>
+        {% endif %}
+        {% endwith %}
 
         <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

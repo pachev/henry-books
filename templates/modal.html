@@ -9,18 +9,15 @@
 				<h4 class="modal-title" id="editModalLabel">Update</h4>
 			</div>
 			<div class="modal-body">
-				<form role="form" action="/editbook" method="post">
+                <form role="form" action="/edit{{editpath}}" method="post">
 					{% for col in data[0] %}
 					<div class="form-group">
 						<label for="edit{{col}}" class="control-label">{{col.upper()}}:</label>
 						<input type="text" class="form-control" name="edit{{col}}" id="edit{{col}}">
 					</div>
 					{% endfor %}
+                     <input type="submit" value="Submit">
 			</form>
-			<div class="alert alert-success alert-dismissable">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-					Success! Row updated successfully.
-			</div>
 
 		</div>
 		<div class="modal-footer">

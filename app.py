@@ -1,14 +1,15 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask,flash, render_template, request, redirect, session, current_app
 from flaskext.mysql import MySQL
 
 # General Settings
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'assignment_3'
+app.config['MYSQL_DATABASE_USER'] = 'user'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'pw'
+app.config['MYSQL_DATABASE_DB'] = 'henry'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'awolin82'
+app.config['SECRET_KEY'] = 'A-UUID-123-GOES-4567-HERE'
 
 mysql = MySQL()
 mysql.init_app(app)
@@ -17,6 +18,7 @@ mysql.init_app(app)
 conn = mysql.connect()
 
 cursor = conn.cursor()
+
 
 #Give context for tables
 def get_table_context(cursor, cursor_data):
@@ -33,62 +35,63 @@ def form_clean(form_input, action):
     if c[0] == action.upper():
         return True
     return False
+
 # Routes to index page
 @app.route('/')
 def main():
 
-    cursor.execute("select * from book")
+    cursor.execute("select * from Book")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('index.html', data=data, editpath='book')
 
 @app.route('/author')
 def author():
 
-    cursor.execute("select * from author")
+    cursor.execute("select * from Author")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('index.html', data=data, editpath='author')
 
 @app.route('/copy')
 def copy():
 
-    cursor.execute("select * from copy")
+    cursor.execute("select * from Copy")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('index.html', data=data, editpath='copy')
 
 @app.route('/publisher')
 def publisher():
 
-    cursor.execute("select * from publisher")
+    cursor.execute("select * from Publisher")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('index.html', data=data, editpath='publisher')
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
-    query = "SELECT b.title, c.quality, c.price, br.branchname, a.authorfirst,\
-            a.authorlast, p.publishername \
+    query = "SELECT b.title, c.quality, c.price, br.branchName, a.authorFirst,\
+            a.authorLast, p.publisherName \
             FROM \
-            BOOK b LEFT JOIN \
-            (COPY c, BRANCH br, PUBLISHER p, WROTE w, AUTHOR a) \
+            Book b LEFT JOIN \
+            (COPY c, Branch br, Publisher p, Wrote w, Author a) \
             ON \
-            (c.bookcode=b.bookcode AND \
-            c.branchnum=br.branchnum AND \
-            b.bookcode=w.bookcode) \
+            (c.bookCode=b.bookCode AND \
+            c.branchNum=br.branchNum AND \
+            b.bookCode=w.bookCode) \
             WHERE \
             b.title LIKE \"%{}%\" AND \
-            p.publishercode=b.publishercode AND \
-            a.authornum=w.authornum"
+            p.publisherCode=b.publisherCode AND \
+            a.authorNum=w.authorNum"
 
     if request.method == "GET":
         form_input = query.format(request.args.get('search').upper())
@@ -101,22 +104,114 @@ def index():
 
 @app.route('/editbook', methods=['POST'])
 def editBook():
-    _title = request.form['editTitle']
-    _bookcode = request.form['editBookcode']
-    _publishercode = request.form['editPublishercode']
-    _type = request.form['editType']
-    _paperback = request.form['editPaperback']
+    _title = request.form['edittitle']
+    _bookcode = request.form['editbookCode']
+    _publishercode = request.form['editpublisherCode']
+    _type = request.form['edittype']
+    _paperback = request.form['editpaperback']
 
-    cursor.execute("""
-        UPDATE book SET bookcode=%s, title=%s, publishercode=%s,
-        type=%s, paperback=%s WHERE bookcode=%s
-    """,(_bookcode, _title, _publishercode, _type, _paperback, _bookcode))
+    query = "UPDATE Book SET bookCode=\"{}\", title=\"{}\", publisherCode=\"{}\",\
+            type=\"{}\", paperback=\"{}\" WHERE\
+            bookcode=\"{}\""
+    update = query.format(_bookcode, _title, _publishercode, _type, _paperback, _bookcode)
 
-    conn.commit()
+    try:
+        cursor.execute("{}".format(update))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully updated', 'success')
+            return redirect('/')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
 
-    return(_title)
+@app.route('/editauthor', methods=['POST'])
+def editAuthor():
+
+    author_num = request.form['editauthorNum']
+    author_last = request.form['editauthorLast']
+    author_first = request.form['editauthorFirst']
+
+    print(request.form)
+
+    query = "UPDATE Author SET authorLast=\"{}\", authorFirst=\"{}\"  WHERE authorNum={}"
+
+    update = query.format(author_last,author_last, author_num)
+
+    print(update)
+
+    try:
+        cursor.execute("{}".format(update))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully updated', 'success')
+            return redirect('/author')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/author')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+
+@app.route('/editpublisher', methods=['POST'])
+def editPublisher():
+
+    print(request.form)
+    _publishercode = request.form['editpublisherCode']
+    _publishername = request.form['editpublisherName']
+    _city = request.form['editcity']
 
 
-# This allows app to run with standar python commnand
+    query = "UPDATE Publisher  SET publisherName=\"{}\", city=\"{}\"  WHERE publisherCode=\"{}\""
+
+    update = query.format(_publishername, _city, _publishercode)
+
+    print(update)
+
+    try:
+        cursor.execute("{}".format(update))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully updated', 'success')
+            return redirect('/publisher')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/publisher')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+
+@app.route('/editcopy', methods=['POST'])
+def editCopy():
+    _bookcode = request.form['editbookCode']
+    _branchnum = request.form['editbranchNum']
+    _copynum = request.form['editcopyNum']
+    _quality = request.form['editquality']
+    _price = request.form['editprice']
+
+    print(request.form)
+    query = "UPDATE Copy SET bookCode=\"{}\", branchNum={}, copyNum={},\
+            quality=\"{}\", price={} WHERE\
+            bookCode=\"{}\" AND copyNum={}"
+    update = query.format(_bookcode, _branchnum, _copynum, _quality, _price, _bookcode, _copynum)
+
+    print(update)
+
+    try:
+        cursor.execute("{}".format(update))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully updated', 'success')
+            return redirect('/copy')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/copy')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+# This allows app to run with standard python commnand
 if __name__ == "__main__":
     app.run()
