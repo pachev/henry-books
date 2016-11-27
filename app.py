@@ -5,9 +5,9 @@ from flaskext.mysql import MySQL
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'user'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'pw'
-app.config['MYSQL_DATABASE_DB'] = 'henry'
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'awolin82'
+app.config['MYSQL_DATABASE_DB'] = 'assignment_3'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['SECRET_KEY'] = 'A-UUID-123-GOES-4567-HERE'
 
@@ -37,15 +37,19 @@ def form_clean(form_input, action):
     return False
 
 # Routes to index page
-@app.route('/book', methods=['GET', 'POST'])
+@app.route('/')
 def main():
+    return render_template('index.html')
+
+@app.route('/book', methods=['GET', 'POST'])
+def book():
 
     cursor.execute("select * from Book")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='book')
+    return render_template('list-view.html', data=data, editpath='book')
 
 @app.route('/author')
 def author():
@@ -55,7 +59,7 @@ def author():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='author')
+    return render_template('list-view.html', data=data, editpath='author')
 
 @app.route('/copy')
 def copy():
@@ -65,7 +69,7 @@ def copy():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='copy')
+    return render_template('list-view.html', data=data, editpath='copy')
 
 @app.route('/publisher')
 def publisher():
@@ -75,7 +79,7 @@ def publisher():
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data, editpath='publisher')
+    return render_template('list-view.html', data=data, editpath='publisher')
 
 @app.route('/search', methods=['GET', 'POST'])
 def index():
@@ -99,7 +103,7 @@ def index():
         cursor_data = cursor.fetchall()
         data = get_table_context(cursor, cursor_data)
 
-    return render_template('index.html', data=data)
+    return render_template('list-view.html', data=data)
 
 @app.route('/editbook', methods=['POST'])
 def editBook():
@@ -119,10 +123,10 @@ def editBook():
         data = cursor.fetchall()
         if len(data) is 0:
             flash('Row sucessfully updated', 'success')
-            return redirect('/')
+            return redirect('/book')
         else:
             flash('Something went terribly wrong', 'error')
-            return redirect('/')
+            return redirect('/book')
     except Exception as e:
         flash('Something went terribly wrong', 'error')
         return redirect('/')
@@ -212,23 +216,30 @@ def editCopy():
         flash('Something went terribly wrong', 'error')
         return redirect('/')
 
+
+
+# DELETE OPERATIONS
 @app.route('/delete-book', methods=['POST'])
 def delete_book():
+    '''Function View For Deleting Books'''
     cursor.execute("delete from book where bookcode = \'{}\'".format(request.form.get("book_to_delete")))
     return redirect(url_for('main'))
 
 @app.route('/delete-author', methods=['POST'])
 def delete_author():
+    '''Function View For Deleting Authors'''
     cursor.execute("delete from author where authornum = \'{}\'".format(request.form.get("author_to_delete")))
     return redirect(url_for('author'))
 
 @app.route('/delete-publisher', methods=['POST'])
 def delete_publisher():
+    '''Function View For Deleting Publishers'''
     cursor.execute("delete from publisher where publishercode = \'{}\'".format(request.form.get("publisher_to_delete")))
     return redirect(url_for('publisher'))
 
 @app.route('/delete-copy', methods=['POST'])
 def delete_copy():
+    '''Function View For Deleting Copies'''
     cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
     return redirect(url_for('copy'))
 
