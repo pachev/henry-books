@@ -257,8 +257,10 @@ def add_book():
     _paperback = request.form['addpaperback']
 
     print(request.form)
-    query = "INSERT INTO Book VALUES (title=\"{}\", bookCode=\"{}\", publisherCode=\"{}\", type=\"{}\", paperback=\"{}\")"
-    add = query.format(_title, _bookcode, _publishercode, _type, _paperback)
+    query = ("INSERT INTO Book "
+            "(bookCode, title, publisherCode, type, paperback)"
+            "VALUES (\"{}\", \"{}\", \"{}\", \"{}\", \"{}\")")
+    add = query.format(_bookcode, _title, _publishercode, _type, _paperback)
 
     print(add)
 
@@ -284,7 +286,9 @@ def add_author():
     _author_first = request.form['addauthorFirst']
 
     print(request.form)
-    query = "INSERT INTO Author VALUES (authorNum={} authorLast=\"{}\", authorFirst=\"{}\")"
+    query = ("INSERT INTO Author "
+            "(authorNum, authorLast, authorFirst)"
+            " VALUES ({},\"{}\", \"{}\")")
     add = query.format(_author_num, _author_last, _author_first)
 
     print(add)
@@ -311,7 +315,9 @@ def add_publisher():
     _city = request.form['addcity']
 
     print(request.form)
-    query = "INSERT INTO Publisher VALUES (publisherCode=\"{}\", publisherName=\"{}\", city=\"{}\")"
+    query = ("INSERT INTO Publisher "
+            "(publisherCode, publisherName, city)"
+            "VALUES (\"{}\", \"{}\", \"{}\")")
     add = query.format(_publishercode, _publishername, _city)
 
     print(add)
@@ -340,7 +346,9 @@ def add_copy():
     _price = request.form['addprice']
 
     print(request.form)
-    query = "INSERT INTO Copy VALUES (bookCode=\"{}\", branchNum={}, copyNum={}, quality=\"{}\", price={})"
+    query = ("INSERT INTO Copy"
+            "(bookCode, branchNum, copyNum, quality, price)"
+            "VALUES (\"{}\", {}, {}, \"{}\", {})")
     add = query.format(_bookcode, _branchnum, _copynum, _quality, _price, _bookcode, _copynum)
 
     print(add)
