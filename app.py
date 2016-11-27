@@ -1,4 +1,5 @@
 from flask import Flask,flash, render_template, request, redirect, session, current_app, url_for
+
 from flaskext.mysql import MySQL
 
 # General Settings
@@ -9,6 +10,10 @@ app.config['MYSQL_DATABASE_USER'] = 'user'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'pw'
 app.config['MYSQL_DATABASE_DB'] = 'henry'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+
+# Uncomment the line below to use the remote database as oppose to a henry one on localhost
+# app.config['MYSQL_DATABASE_HOST'] = '107.170.108.43'
+
 app.config['SECRET_KEY'] = 'A-UUID-123-GOES-4567-HERE'
 
 mysql = MySQL()
@@ -214,22 +219,22 @@ def editCopy():
 
 @app.route('/delete-book', methods=['POST'])
 def delete_book():
-    cursor.execute("delete from book where bookcode = \'{}\'".format(request.form.get("book_to_delete")))
+    cursor.execute("delete from Book where bookCode = \'{}\'".format(request.form.get("book_to_delete")))
     return redirect(url_for('main'))
 
 @app.route('/delete-author', methods=['POST'])
 def delete_author():
-    cursor.execute("delete from author where authornum = \'{}\'".format(request.form.get("author_to_delete")))
+    cursor.execute("delete from Author where authorNum = \'{}\'".format(request.form.get("author_to_delete")))
     return redirect(url_for('author'))
 
 @app.route('/delete-publisher', methods=['POST'])
 def delete_publisher():
-    cursor.execute("delete from publisher where publishercode = \'{}\'".format(request.form.get("publisher_to_delete")))
+    cursor.execute("delete from Publisher where publisherCode = \'{}\'".format(request.form.get("publisher_to_delete")))
     return redirect(url_for('publisher'))
 
 @app.route('/delete-copy', methods=['POST'])
 def delete_copy():
-    cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
+    cursor.execute("delete from Copy where bookCode = \'{}\'".format(request.form.get("copy_to_delete")))
     return redirect(url_for('copy'))
 
 # This allows app to run with standar python commnand
