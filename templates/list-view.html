@@ -5,6 +5,24 @@
 
 {% block content %}
 {{ super () }}
+<div class="add-wrapper">
+	<div class="add-form-wrapper">
+		<form role="form" action="\add-{{request.url_rule.rule[1::]}}" method="POST">
+			<ul class="add-list">
+			{% for col in data[0] %}
+				<li class="add-input">
+					<label for="edit{{col.upper()}}" class="control-label">{{col.upper()}}:</label>
+					<input type="text" class="form-control" name="add{{col}}" id="add{{col.upper()}}">
+				</li>
+			{% endfor %}
+			</ul>
+			<input type="submit" 
+					class="add-button-wrapper btn btn-primary" 
+					value="Add {{request.url_rule.rule[1::].title()}}">
+			</input>
+		</form>
+	</div>
+</div>
 		<div class="row" >
 			<table class="table">
 				<thead>

@@ -222,6 +222,7 @@ def editCopy():
 @app.route('/delete-book', methods=['POST'])
 def delete_book():
     '''Function View For Deleting Books'''
+
     cursor.execute("delete from book where bookcode = \'{}\'".format(request.form.get("book_to_delete")))
     return redirect(url_for('main'))
 
@@ -242,6 +243,120 @@ def delete_copy():
     '''Function View For Deleting Copies'''
     cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
     return redirect(url_for('copy'))
+
+# ADD OPERATIONS
+
+@app.route('/add-book', methods=['POST'])
+def add_book():
+    '''Function View For Adding Books'''
+
+    _title = request.form['addtitle']
+    _bookcode = request.form['addbookCode']
+    _publishercode = request.form['addpublisherCode']
+    _type = request.form['addtype']
+    _paperback = request.form['addpaperback']
+
+    print(request.form)
+    query = "INSERT INTO Book VALUES (title=\"{}\", bookCode=\"{}\", publisherCode=\"{}\", type=\"{}\", paperback=\"{}\")"
+    add = query.format(_title, _bookcode, _publishercode, _type, _paperback)
+
+    print(add)
+
+    try:
+        cursor.execute("{}".format(add))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully added', 'success')
+            return redirect('/book')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/book')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+
+@app.route('/add-author', methods=['POST'])
+def add_author():
+    '''Function View For Adding Authors'''
+
+    _author_num = request.form['addauthorNum']
+    _author_last = request.form['addauthorLast']
+    _author_first = request.form['addauthorFirst']
+
+    print(request.form)
+    query = "INSERT INTO Author VALUES (authorNum={} authorLast=\"{}\", authorFirst=\"{}\")"
+    add = query.format(_author_num, _author_last, _author_first)
+
+    print(add)
+
+    try:
+        cursor.execute("{}".format(add))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully added', 'success')
+            return redirect('/author')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/author')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+
+@app.route('/add-publisher', methods=['POST'])
+def add_publisher():
+    '''Function View For Adding Copies'''
+
+    _publishercode = request.form['addpublisherCode']
+    _publishername = request.form['addpublisherName']
+    _city = request.form['addcity']
+
+    print(request.form)
+    query = "INSERT INTO Publisher VALUES (publisherCode=\"{}\", publisherName=\"{}\", city=\"{}\")"
+    add = query.format(_publishercode, _publishername, _city)
+
+    print(add)
+
+    try:
+        cursor.execute("{}".format(add))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully added', 'success')
+            return redirect('/publisher')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/publisher')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
+
+@app.route('/add-copy', methods=['POST'])
+def add_copy():
+    '''Function View For Adding Copies'''
+
+    _bookcode = request.form['addbookCode']
+    _branchnum = request.form['addbranchNum']
+    _copynum = request.form['addcopyNum']
+    _quality = request.form['addquality']
+    _price = request.form['addprice']
+
+    print(request.form)
+    query = "INSERT INTO Copy VALUES (bookCode=\"{}\", branchNum={}, copyNum={}, quality=\"{}\", price={})"
+    add = query.format(_bookcode, _branchnum, _copynum, _quality, _price, _bookcode, _copynum)
+
+    print(add)
+
+    try:
+        cursor.execute("{}".format(add))
+        data = cursor.fetchall()
+        if len(data) is 0:
+            flash('Row sucessfully added', 'success')
+            return redirect('/copy')
+        else:
+            flash('Something went terribly wrong', 'error')
+            return redirect('/copy')
+    except Exception as e:
+        flash('Something went terribly wrong', 'error')
+        return redirect('/')
 
 # This allows app to run with standar python commnand
 if __name__ == "__main__":

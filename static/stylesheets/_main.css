@@ -25,6 +25,38 @@
 			border: none;
 			color: #337ab7;
 		}
+
+		.add-list {
+			margin-top: 2%;
+			display: flex;
+			list-style: none;
+			justify-content: center;
+		}
+
+		span.label.label-primary {
+			padding: 1em;
+		}
+
+		span.label.label-primary:hover {
+			background-color: #286090; 
+		}
+
+		.add-input {
+			padding-left: 2%;
+			padding-right: 2%;
+		}
+
+		.add-wrapper {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+		}
+		.add-button-wrapper {
+			text-align: center;
+			margin-top: 2%;
+			margin-bottom: 2%;
+		}
+		
 		.list {
 			display: flex;
 		}
