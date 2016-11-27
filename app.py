@@ -34,17 +34,14 @@ def form_clean(form_input, action):
         return True
     return False
 # Routes to index page
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/book', methods=['GET', 'POST'])
 def main():
-    if request.method == 'POST':
-        for args in request.form:
-            print("ARGS")
-            print(args)
 
     cursor.execute("select * from book")
 
     cursor_data = cursor.fetchall()
     data = get_table_context(cursor, cursor_data)
+
 
     return render_template('index.html', data=data)
 
@@ -122,23 +119,23 @@ def editBook():
 
 @app.route('/delete-book', methods=['POST'])
 def delete_book():
-    cursor.execute("delete from book where title = \'{}\'".format(request.form.get("book_to_delete")))
+    cursor.execute("delete from book where bookcode = \'{}\'".format(request.form.get("book_to_delete")))
     return redirect(url_for('main'))
 
 @app.route('/delete-author', methods=['POST'])
 def delete_author():
     cursor.execute("delete from author where authornum = \'{}\'".format(request.form.get("author_to_delete")))
-    return redirect(url_for('main'))
+    return redirect(url_for('author'))
 
 @app.route('/delete-publisher', methods=['POST'])
 def delete_publisher():
     cursor.execute("delete from publisher where publishercode = \'{}\'".format(request.form.get("publisher_to_delete")))
-    return redirect(url_for('main'))
+    return redirect(url_for('publisher'))
 
 @app.route('/delete-copy', methods=['POST'])
 def delete_copy():
     cursor.execute("delete from copy where bookcode = \'{}\'".format(request.form.get("copy_to_delete")))
-    return redirect(url_for('main'))
+    return redirect(url_for('copy'))
 
 # This allows app to run with standar python commnand
 if __name__ == "__main__":
