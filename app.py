@@ -1,6 +1,7 @@
 from flask import Flask,flash, render_template, request, redirect, session, current_app, url_for
-
 from flaskext.mysql import MySQL
+
+
 
 # General Settings
 app = Flask(__name__)
@@ -92,7 +93,7 @@ def index():
             a.authorLast, p.publisherName \
             FROM \
             Book b LEFT JOIN \
-            (COPY c, Branch br, Publisher p, Wrote w, Author a) \
+            (Copy c, Branch br, Publisher p, Wrote w, Author a) \
             ON \
             (c.bookCode=b.bookCode AND \
             c.branchNum=br.branchNum AND \
@@ -229,25 +230,25 @@ def delete_book():
     '''Function View For Deleting Books'''
 
     cursor.execute("delete from Book where bookCode = \'{}\'".format(request.form.get("book_to_delete")))
-    return redirect(url_for('book'))
+    return redirect(url_for('main'))
 
 @app.route('/delete-author', methods=['POST'])
 def delete_author():
     '''Function View For Deleting Authors'''
     cursor.execute("delete from Author where authorNum = \'{}\'".format(request.form.get("author_to_delete")))
-    return redirect(url_for('author'))
+    return redirect(url_for('main'))
 
 @app.route('/delete-publisher', methods=['POST'])
 def delete_publisher():
     '''Function View For Deleting Publishers'''
     cursor.execute("delete from Publisher where publisherCode = \'{}\'".format(request.form.get("publisher_to_delete")))
-    return redirect(url_for('publisher'))
+    return redirect(url_for('main'))
 
 @app.route('/delete-copy', methods=['POST'])
 def delete_copy():
     '''Function View For Deleting Copies'''
     cursor.execute("delete from Copy where bookCode = \'{}\'".format(request.form.get("copy_to_delete")))
-    return redirect(url_for('copy'))
+    return redirect(url_for('main'))
 
 # ADD OPERATIONS
 
