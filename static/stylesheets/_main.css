@@ -1,0 +1,89 @@
+        .jumbotron{
+            background-image: url(http://www.uglydogbooks.com/wp-content/uploads/2014/04/books.jpg);
+            background-size: cover;
+            background-position: center center;
+            color: white;
+            position: relative;
+        }
+		
+		.header {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.header-title {
+			margin-right: 5%;
+		}
+
+		.welcome-wrapper {
+			text-align: center;
+			padding: 10%;
+		}
+
+		.trash-button {
+			background-color: white;
+			border: none;
+			color: #337ab7;
+		}
+
+		.add-list {
+			margin-top: 2%;
+			display: flex;
+			list-style: none;
+			justify-content: center;
+		}
+
+		span.label.label-primary {
+			padding: 1em;
+		}
+
+		span.label.label-primary:hover {
+			background-color: #286090; 
+		}
+
+		.add-input {
+			padding-left: 2%;
+			padding-right: 2%;
+		}
+
+		.add-wrapper {
+			display: flex;
+			flex-direction: column;
+			text-align: center;
+		}
+		.add-button-wrapper {
+			text-align: center;
+			margin-top: 2%;
+			margin-bottom: 2%;
+		}
+		
+		.list {
+			display: flex;
+		}
+
+		.header-wrapper {
+			max-width: 85.95rem;
+			margin: 0 auto;
+		}
+
+		.header-wapper h4 {
+			text-align: center;
+		}
+
+		.jumbotron-inner {
+			height: 100%;
+			width: 100%;
+			position: absolute;
+			top: 0;
+			z-index: 1;
+		}
+
+		.jumbotron-inner h2 {
+			z-index: 999;
+			position: relative;
+            color: white important!;
+		}	
+
+		.footer-content {
+			text-align: center;
+		}
